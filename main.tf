@@ -1,10 +1,13 @@
 resource "aws_rds_cluster" "main" {
-  cluster_identifier = "${var.env}-rds"
-  engine             = "mysql"
-  engine_version     = var.engine_version
-  database_name      = "dummy"
-  master_username    = local.username
-  master_password    = local.password
+  cluster_identifier     = "${var.env}-rds"
+  engine                 = "aurora-mysql"
+  engine_version         = var.engine_version
+  database_name          = "dummy"
+  master_username        = local.username
+  master_password        = local.password
+  db_subnet_group_name   = aws_db_subnet_group.main.name
+  vpc_security_group_ids = [aws_security_group.main.id]
+
 }
 
 resource "aws_rds_cluster_instance" "cluster_instances" {
@@ -26,11 +29,11 @@ resource "aws_db_subnet_group" "main" {
   }
 }
 
-resource "aws_db_parameter_group" "main" {
-  family      = "mysql5.7"
-  name        = "${var.env}-rds"
-  description = "${var.env}-rds"
-}
+//resource "aws_db_parameter_group" "main" {
+//  family      = "mysql5.7"
+//  name        = "${var.env}-rds"
+//  description = "${var.env}-rds"
+//}
 
 resource "aws_security_group" "main" {
   name        = "${var.env}-rds"
