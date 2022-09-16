@@ -52,3 +52,14 @@ resource "aws_security_group" "main" {
   }
 }
 
+resource "null_resource" "mysql-schema-apply" {
+  provisioner "local-exec" {
+    command = <<EOF
+curl -s -L -o /tmp/mysql.zip "https://github.com/roboshop-devops-project/mysql/archive/main.zip"
+cd /tmp
+unzip -o mysql.zip
+cd mysql-main
+mysql -h ${aws_rds_cluster.main.endpoint} -u ${local.username} -p${local.password} <shipping.sql
+EOF
+  }
+}
