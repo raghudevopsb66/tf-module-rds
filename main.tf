@@ -7,6 +7,7 @@ resource "aws_rds_cluster" "main" {
   master_password        = local.password
   db_subnet_group_name   = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.main.id]
+  skip_final_snapshot    = true
 
 }
 
