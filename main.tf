@@ -65,3 +65,10 @@ mysql -h ${aws_rds_cluster.main.endpoint} -u ${local.username} -p${local.passwor
 EOF
   }
 }
+
+resource "aws_ssm_parameter" "rds" {
+  name  = "mutable.rds.${var.env}.DB_HOST"
+  type  = "String"
+  value = aws_rds_cluster.main.endpoint
+}
+
