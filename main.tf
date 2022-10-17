@@ -67,7 +67,7 @@ EOF
 }
 
 resource "aws_ssm_parameter" "rds" {
-  name  = "mutable.rds.${var.env}.DB_HOST"
+  name  = "immutable.rds.${var.env}.DB_HOST"
   type  = "String"
   value = aws_rds_cluster.main.endpoint
 }
